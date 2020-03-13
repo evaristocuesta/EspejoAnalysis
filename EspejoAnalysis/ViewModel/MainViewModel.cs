@@ -1,5 +1,7 @@
 ﻿using EspejoAnalysis.Helper;
 using EspejoAnalysis.Model;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -9,7 +11,7 @@ using System.Windows.Input;
 
 namespace EspejoAnalysis.ViewModel
 {
-    public class MainViewModel : NotifyPropertyChangedBase
+    public class MainViewModel : ViewModelBase
     {
         private const string PATH_CONFIG = @".\Config.xml";
 
@@ -17,7 +19,7 @@ namespace EspejoAnalysis.ViewModel
 
         public MainViewModel()
         {
-            Generar = new CommandBase(GenerarExecute, GenerarCanExecute);
+            Generar = new RelayCommand(GenerarExecute, GenerarCanExecute);
             if (!File.Exists(Path.GetDirectoryName(PATH_CONFIG)))
                 _config = Serializer.Deserialize<Config>(System.IO.File.ReadAllText(PATH_CONFIG));
             else
@@ -37,8 +39,7 @@ namespace EspejoAnalysis.ViewModel
             }
             set
             {
-                _selectedDirectorio = value;
-                OnPropertyChanged();
+                Set(ref _selectedDirectorio, value);
             }
         }
 
@@ -53,8 +54,7 @@ namespace EspejoAnalysis.ViewModel
             }
             set
             {
-                _output = value;
-                OnPropertyChanged();
+                Set(ref _output, value);
             }
         }
 
@@ -64,7 +64,7 @@ namespace EspejoAnalysis.ViewModel
         }
 
 
-        private void GenerarExecute(object arg)
+        private void GenerarExecute()
         {
             InsertaEnHistorico(SelectedDirectorio);
             if (!Directory.Exists(Path.GetDirectoryName(SelectedDirectorio)))
@@ -105,7 +105,7 @@ namespace EspejoAnalysis.ViewModel
             }
         }
 
-        private bool GenerarCanExecute(object arg)
+        private bool GenerarCanExecute()
         {
             return !string.IsNullOrEmpty(SelectedDirectorio);
         }
