@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="EspejoAnalysis.View.EsterolesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:EspejoAnalysis.ViewModel"
+             xmlns:local="clr-namespace:EspejoAnalysis.View"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewModel:EsterolesViewModel,IsDesignTimeCreatable=False}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="ESTEROLES"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Center"
+                   Margin="5"
+                   FontSize="32"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />
+        <ComboBox Margin="5"
+                  x:Name="cmbDirectorioSeleccionado"
+                  Grid.Column="0"
+                  Grid.Row="1"
+                  ItemsSource="{Binding HistoricoDirectorios, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedDirectorio, Mode=TwoWay}"
+                  IsEditable="True" />
+        <Button Margin="5"
+                x:Name="btnSeleccionarDirectorio"
+                Grid.Column="1"
+                Grid.Row="1"
+                Content="Seleccione Directorio"
+                Click="btnSeleccionarDirectorio_Click" />
+
+        <Button Margin="5"
+                Grid.Column="1"
+                Grid.Row="2"
+                Command="{Binding Generar}"
+                CommandParameter="{Binding ElementName=txtPassword, Path=SecurePassword}"
+                Content="Generar" />
+        <TextBlock Margin="5"
+                   Grid.Row="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Text="Output:" />
+        <TextBox Margin="5"
+                 IsReadOnly="True"
+                 Grid.Row="4"
+                 Grid.Column="0"
+                 Grid.ColumnSpan="2"
+                 Text="{Binding Output}"
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto" />
+    </Grid>
+</UserControl>

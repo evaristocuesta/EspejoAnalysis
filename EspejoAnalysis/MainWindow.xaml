@@ -4,6 +4,7 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:ViewModel="clr-namespace:EspejoAnalysis.ViewModel"
                       xmlns:local="clr-namespace:EspejoAnalysis"
                       mc:Ignorable="d"
                       Title="{Binding TitleVersion}"
@@ -13,62 +14,23 @@
                       WindowStartupLocation="CenterScreen"
                       WindowState="Maximized"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
-    <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <StackPanel Orientation="Vertical">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="150" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <ComboBox Margin="5"
-                              x:Name="cmbDirectorioSeleccionado"
-                              Grid.Column="0"
-                              Grid.Row="0"
-                              ItemsSource="{Binding HistoricoDirectorios, Mode=TwoWay}"
-                              SelectedItem="{Binding SelectedDirectorio, Mode=TwoWay}"
-                              IsEditable="True" />
-                    <Button Margin="5"
-                            x:Name="btnSeleccionarDirectorio"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            Content="Seleccione Directorio"
-                            Click="btnSeleccionarDirectorio_Click" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Button Margin="5"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            Command="{Binding Generar}"
-                            CommandParameter="{Binding ElementName=txtPassword, Path=SecurePassword}"
-                            Content="Generar" />
-                </Grid>
-            </StackPanel>
-        </Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="26" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Margin="5"
-                       Grid.Row="0"
-                       Text="Output:" />
-            <TextBox Margin="5"
-                     IsReadOnly="True"
-                     Grid.Row="1"
-                     Text="{Binding Output}"
-                     VerticalScrollBarVisibility="Auto"
-                     HorizontalScrollBarVisibility="Auto" />
-        </Grid>
-    </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Button Content="Esteroles"
+                    Margin="5"
+                    Command="{Binding ShowAnalysisCommand}"
+                    CommandParameter="{x:Type ViewModel:EsterolesViewModel}" />
+            <Button Content="Mosh Moah"
+                    Margin="5"
+                    Command="{Binding ShowAnalysisCommand}"
+                    CommandParameter="{x:Type ViewModel:MoshMoahViewModel}" />
+        </StackPanel>
+        <Controls:TransitioningContentControl Content="{Binding Analysis}"
+                                              Transition="Default"
+                                              Grid.Column="1" />
+    </Grid>
 </Controls:MetroWindow>

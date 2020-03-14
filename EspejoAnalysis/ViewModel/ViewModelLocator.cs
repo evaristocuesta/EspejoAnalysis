@@ -28,6 +28,8 @@ namespace EspejoAnalysis.ViewModel
         static ViewModelLocator()
         {
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<IAnalysis>(() => new EsterolesViewModel(), nameof(EsterolesViewModel));
+            SimpleIoc.Default.Register<IAnalysis>(() => new MoshMoahViewModel(), nameof(MoshMoahViewModel));
         }
 
         public MainViewModel Main
@@ -35,6 +37,14 @@ namespace EspejoAnalysis.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<MainViewModel>();
+            }
+        }
+
+        public EsterolesViewModel Esteroles
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<EsterolesViewModel>();
             }
         }
 
