@@ -91,6 +91,9 @@
     <Compile Include="View\MoshMoahView.xaml.cs">
       <DependentUpon>MoshMoahView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Services\DialogResult.cs" />
+    <Compile Include="View\Services\DialogService.cs" />
+    <Compile Include="View\Services\IDialogService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -19,6 +19,13 @@ namespace EspejoAnalysis.Model
         public double Patron { get; set; }
         public double EritrodiolAbsoluto { get; set; }
         public double UvaolAbsoluto { get; set; }
+        public double EritrodiolPlusUvaolAbs
+        {
+            get
+            {
+                return EritrodiolAbsoluto + UvaolAbsoluto;
+            }
+        }
 
         public override string ToString()
         {
@@ -34,7 +41,7 @@ namespace EspejoAnalysis.Model
             output += $"\tEsteroles abs:\t {Patron} mg/Kg \n";
             output += $"\tEritrodiol abs:\t {EritrodiolAbsoluto} mg/Kg \n";
             output += $"\tUvaol abs:\t {UvaolAbsoluto} mg/Kg \n";
-            output += $"\tEritrodiol + Uvaol abs:\t {EritrodiolAbsoluto + UvaolAbsoluto} mg/Kg \n";
+            output += $"\tEritrodiol + Uvaol abs:\t {EritrodiolPlusUvaolAbs} mg/Kg \n";
             return output;
         }
     }

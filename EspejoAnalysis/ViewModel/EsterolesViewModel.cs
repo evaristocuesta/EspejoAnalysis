@@ -1,8 +1,10 @@
 ﻿using EspejoAnalysis.Helper;
 using EspejoAnalysis.Model;
+using EspejoAnalysis.View.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -13,11 +15,13 @@ namespace EspejoAnalysis.ViewModel
     public class EsterolesViewModel : ViewModelBase, IAnalysis
     {
         private const string PATH_CONFIG = @".\Config.xml";
-
         private Config _config;
+        private IDialogService _dialogService;
 
-        public EsterolesViewModel()
+        public EsterolesViewModel(IDialogService dialogService)
         {
+            _dialogService = dialogService;
+            Results = new ObservableCollection<EsterolesResult>();
             Generar = new RelayCommand(GenerarExecute, GenerarCanExecute);
             if (!File.Exists(Path.GetDirectoryName(PATH_CONFIG)))
                 _config = Serializer.Deserialize<Config>(System.IO.File.ReadAllText(PATH_CONFIG));
@@ -44,6 +48,8 @@ namespace EspejoAnalysis.ViewModel
 
         public ObservableCollection<string> HistoricoDirectorios { get; set; }
 
+        public ObservableCollection<EsterolesResult> Results { get; set; }
+
         private string _output;
         public string Output
         {
@@ -63,6 +69,7 @@ namespace EspejoAnalysis.ViewModel
             if (!Directory.Exists(Path.GetDirectoryName(SelectedDirectorio)))
             {
                 Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el directorio {SelectedDirectorio}\n";
+                _dialogService.ShowInfoDialogAsync("Error", $"No existe el directorio {SelectedDirectorio}");
             }
             else
             {
@@ -74,17 +81,20 @@ namespace EspejoAnalysis.ViewModel
                         if (!File.Exists(file))
                         {
                             Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el fichero {file}\n";
+                            _dialogService.ShowInfoDialogAsync("Error", $"No existe el fichero {file}");
                         }
                         else
                         {
                             EsterolesLogic analysis = new EsterolesLogic();
                             try
                             {
-                                Output += $"{ DateTime.Now.ToShortTimeString()} - {analysis.Calculate(file)}\n";
+                                Results.Add(analysis.Calculate(file));
+                                Output += $"{ DateTime.Now.ToShortTimeString()} - {Results.Last()}\n";
                             }
                             catch (Exception ex)
                             {
                                 Output += $"{DateTime.Now.ToShortTimeString()} Error: {ex.Message}\n";
+                                _dialogService.ShowInfoDialogAsync("Error", $"Error: {ex.Message}");
                             }
                         }
                     }
