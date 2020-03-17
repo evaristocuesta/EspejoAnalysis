@@ -74,13 +74,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Const\Constants.cs" />
-    <Compile Include="Model\Esteroles.cs" />
+    <Compile Include="Model\EsterolesLogic.cs" />
     <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\EsterolesResult.cs" />
     <Compile Include="ViewModel\EsterolesViewModel.cs" />
     <Compile Include="ViewModel\IAnalysis.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MoshMoahViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\EsterolesResultView.xaml.cs">
+      <DependentUpon>EsterolesResultView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EsterolesView.xaml.cs">
       <DependentUpon>EsterolesView.xaml</DependentUpon>
     </Compile>
@@ -100,6 +104,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\EsterolesResultView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EsterolesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -77,7 +77,7 @@ namespace EspejoAnalysis.ViewModel
                         }
                         else
                         {
-                            Esteroles analysis = new Esteroles();
+                            EsterolesLogic analysis = new EsterolesLogic();
                             try
                             {
                                 Output += $"{ DateTime.Now.ToShortTimeString()} - {analysis.Calculate(file)}\n";
