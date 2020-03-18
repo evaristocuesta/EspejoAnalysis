@@ -11,11 +11,10 @@
              d:DataContext="{d:DesignInstance Type=model:EsterolesResult,IsDesignTimeCreatable=False}"
              Margin="5"
              Width="300">
-    <Border BorderBrush="Gray"
-            BorderThickness="2">
+    <GroupBox Header="{Binding Name}" 
+              HeaderStringFormat="Análisis {0}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -32,102 +31,94 @@
                 <ColumnDefinition Width="160" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Content="Analysis"
+            <Label Content="Colesterol"
                    Grid.Row="0"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Name}"
+            <TextBlock Text="{Binding Colesterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="0"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Colesterol"
+            <Label Content="Brasicasterol"
                    Grid.Row="1"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Colesterol, StringFormat={}{0:0.0} %}"
+            <TextBlock Text="{Binding Brasicasterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="1"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Brasicasterol"
+            <Label Content="Campesterol"
                    Grid.Row="2"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Brasicasterol, StringFormat={}{0:0.0} %}"
+            <TextBlock Text="{Binding Campesterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="2"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Campesterol"
+            <Label Content="Estigmasterol"
                    Grid.Row="3"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Campesterol, StringFormat={}{0:0.0} %}"
+            <TextBlock Text="{Binding Estigmasterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="3"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Estigmasterol"
+            <Label Content="β-Sitosterol"
                    Grid.Row="4"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Estigmasterol, StringFormat={}{0:0.0} %}"
+            <TextBlock Text="{Binding βSitosterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="4"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="β-Sitosterol"
+            <Label Content="δ7-Estigmastenol"
                    Grid.Row="5"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding βSitosterol, StringFormat={}{0:0.0} %}"
+            <TextBlock Text="{Binding δ7Estigmastenol, StringFormat={}{0:0.0} %}"
                        Grid.Row="5"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="δ7-Estigmastenol"
+            <Label Content="Eritrodiol + Uvaol"
                    Grid.Row="6"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding δ7Estigmastenol, StringFormat={}{0:0.0} %}"
+            <TextBlock Text="{Binding EritrodiolPlusUvaol, StringFormat={}{0:0.0} %}"
                        Grid.Row="6"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Eritrodiol + Uvaol"
+            <Label Content="Esteroles abs"
                    Grid.Row="7"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding EritrodiolPlusUvaol, StringFormat={}{0:0.0} %}"
+            <TextBlock Text="{Binding Patron, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="7"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Esteroles abs"
+            <Label Content="Eritrodiol abs"
                    Grid.Row="8"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Patron, StringFormat={}{0:0} mg/Kg}"
+            <TextBlock Text="{Binding EritrodiolAbsoluto, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="8"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Eritrodiol abs"
+            <Label Content="Uvaol abs"
                    Grid.Row="9"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding EritrodiolAbsoluto, StringFormat={}{0:0} mg/Kg}"
+            <TextBlock Text="{Binding UvaolAbsoluto, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="9"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Uvaol abs"
+            <Label Content="Eritrodiol + Uvaol abs"
                    Grid.Row="10"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding UvaolAbsoluto, StringFormat={}{0:0} mg/Kg}"
+            <TextBlock Text="{Binding EritrodiolPlusUvaolAbs, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="10"
                        Grid.Column="1"
                        VerticalAlignment="Center" />
-            <Label Content="Eritrodiol + Uvaol abs"
-                   Grid.Row="11"
-                   Grid.Column="0"
-                   VerticalAlignment="Center" />
-            <TextBlock Text="{Binding EritrodiolPlusUvaolAbs, StringFormat={}{0:0} mg/Kg}"
-                       Grid.Row="11"
-                       Grid.Column="1"
-                       VerticalAlignment="Center" />
         </Grid>
-    </Border>
+    </GroupBox>
 </UserControl>
