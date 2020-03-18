@@ -27,8 +27,8 @@ namespace EspejoAnalysis.ViewModel
                 _config = Serializer.Deserialize<Config>(System.IO.File.ReadAllText(PATH_CONFIG));
             else
                 _config = new Config();
-            HistoricoDirectorios = new ObservableCollection<string>(_config.HistoricoDirectorios);
-            SelectedDirectorio = _config.HistoricoDirectorios.Count > 0 ? _config.HistoricoDirectorios[0] : "";
+            HistoricoDirectorios = new ObservableCollection<string>(_config.Esteroles.HistoricoDirectorios);
+            SelectedDirectorio = _config.Esteroles.HistoricoDirectorios.Count > 0 ? _config.Esteroles.HistoricoDirectorios[0] : "";
         }
 
         public ICommand Generar { get; private set; }
@@ -76,27 +76,35 @@ namespace EspejoAnalysis.ViewModel
                 try
                 {
                     string[] files = Directory.GetFiles(SelectedDirectorio, "*.csv", SearchOption.TopDirectoryOnly);
-                    foreach (string file in files)
+                    Results.Clear();
+                    if (files.Length > 0)
                     {
-                        if (!File.Exists(file))
+                        foreach (string file in files)
                         {
-                            Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el fichero {file}\n";
-                            _dialogService.ShowInfoDialogAsync("Error", $"No existe el fichero {file}");
-                        }
-                        else
-                        {
-                            EsterolesLogic analysis = new EsterolesLogic();
-                            try
+                            if (!File.Exists(file))
                             {
-                                Results.Add(analysis.Calculate(file));
-                                Output += $"{ DateTime.Now.ToShortTimeString()} - {Results.Last()}\n";
+                                Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el fichero {file}\n";
+                                _dialogService.ShowInfoDialogAsync("Error", $"No existe el fichero {file}");
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                Output += $"{DateTime.Now.ToShortTimeString()} Error: {ex.Message}\n";
-                                _dialogService.ShowInfoDialogAsync("Error", $"Error: {ex.Message}");
+                                EsterolesLogic analysis = new EsterolesLogic();
+                                try
+                                {
+                                    Results.Add(analysis.Calculate(file));
+                                    Output += $"{ DateTime.Now.ToShortTimeString()} - {Results.Last()}\n";
+                                }
+                                catch (Exception ex)
+                                {
+                                    Output += $"{DateTime.Now.ToShortTimeString()} Error: {ex.Message}\n";
+                                    _dialogService.ShowInfoDialogAsync("Error", $"Error: {ex.Message}");
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        _dialogService.ShowInfoDialogAsync("Info", "No hay análisis en este directorio");
                     }
                     Output += $"{DateTime.Now.ToShortTimeString()} Info: Hecho\n";
                 }
@@ -136,7 +144,7 @@ namespace EspejoAnalysis.ViewModel
         {
             try
             {
-                _config.HistoricoDirectorios = HistoricoDirectorios.ToList();
+                _config.Esteroles.HistoricoDirectorios = HistoricoDirectorios.ToList();
                 if (!Directory.Exists(Path.GetDirectoryName(PATH_CONFIG)))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(PATH_CONFIG));

@@ -7,11 +7,10 @@ namespace EspejoAnalysis.Model
     {
         public Config()
         {
-            HistoricoDirectorios = new List<string>();
+            Esteroles = new ConfigEsteroles();
         }
 
-        [XmlArray("HistoricoDirectorios")]
-        [XmlArrayItem("Directorio")]
-        public List<string> HistoricoDirectorios { get; set; }
+        [XmlElement("Esteroles")]
+        public ConfigEsteroles Esteroles { get; set; }
     }
 }

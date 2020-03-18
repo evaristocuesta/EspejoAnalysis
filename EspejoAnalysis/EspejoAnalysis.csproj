@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Const\Constants.cs" />
+    <Compile Include="Model\ConfigEsteroles.cs" />
     <Compile Include="Model\EsterolesLogic.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\EsterolesResult.cs" />

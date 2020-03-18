@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Config>
-  <HistoricoDirectorios>
-    <Directorio>C:\Users\evari\OneDrive\Escritorio\Laboratorio Espejo</Directorio>
-  </HistoricoDirectorios>
+  <Esteroles>
+    <HistoricoDirectorios>
+      <Directorio>C:\Users\evari\OneDrive\Escritorio\Laboratorio Espejo</Directorio>
+    </HistoricoDirectorios>
+  </Esteroles>
 </Config>
