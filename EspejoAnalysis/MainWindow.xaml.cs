@@ -18,7 +18,7 @@ namespace EspejoAnalysis
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            ((MainViewModel)DataContext).Analysis.Close();
+            ((MainViewModel)DataContext).Analysis?.Close();
         }
     }
 }

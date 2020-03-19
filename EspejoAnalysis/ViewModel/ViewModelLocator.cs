@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using EspejoAnalysis.Model;
 using EspejoAnalysis.View.Services;
 using GalaSoft.MvvmLight.Ioc;
 
@@ -28,11 +29,15 @@ namespace EspejoAnalysis.ViewModel
         /// </summary>
         static ViewModelLocator()
         {
+            SimpleIoc.Default.Register<ConfigManager>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<IAnalysis>(() => new EsterolesViewModel(SimpleIoc.Default.GetInstance<IDialogService>()), 
+            SimpleIoc.Default.Register<IAnalysis>(() => new EsterolesViewModel(SimpleIoc.Default.GetInstance<IDialogService>(),
+                SimpleIoc.Default.GetInstance<ConfigManager>()), 
                 nameof(EsterolesViewModel));
-            SimpleIoc.Default.Register<IAnalysis>(() => new MoshMoahViewModel(), nameof(MoshMoahViewModel));
+            SimpleIoc.Default.Register<IAnalysis>(() => new MoshMoahViewModel(SimpleIoc.Default.GetInstance<IDialogService>(),
+                SimpleIoc.Default.GetInstance<ConfigManager>()), 
+                nameof(MoshMoahViewModel));
         }
 
         public MainViewModel Main

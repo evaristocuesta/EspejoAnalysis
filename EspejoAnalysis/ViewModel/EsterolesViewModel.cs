@@ -1,10 +1,8 @@
-﻿using EspejoAnalysis.Helper;
-using EspejoAnalysis.Model;
+﻿using EspejoAnalysis.Model;
 using EspejoAnalysis.View.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -14,21 +12,18 @@ namespace EspejoAnalysis.ViewModel
 {
     public class EsterolesViewModel : ViewModelBase, IAnalysis
     {
-        private const string PATH_CONFIG = @".\Config.xml";
-        private Config _config;
         private IDialogService _dialogService;
+        private ConfigManager _configManager;
 
-        public EsterolesViewModel(IDialogService dialogService)
+        public EsterolesViewModel(IDialogService dialogService, ConfigManager configManager)
         {
             _dialogService = dialogService;
+            _configManager = configManager;
             Results = new ObservableCollection<EsterolesResult>();
             Generar = new RelayCommand(GenerarExecute, GenerarCanExecute);
-            if (!File.Exists(Path.GetDirectoryName(PATH_CONFIG)))
-                _config = Serializer.Deserialize<Config>(System.IO.File.ReadAllText(PATH_CONFIG));
-            else
-                _config = new Config();
-            HistoricoDirectorios = new ObservableCollection<string>(_config.Esteroles.HistoricoDirectorios);
-            SelectedDirectorio = _config.Esteroles.HistoricoDirectorios.Count > 0 ? _config.Esteroles.HistoricoDirectorios[0] : "";
+
+            HistoricoDirectorios = new ObservableCollection<string>(_configManager.Config.Esteroles.HistoricoDirectorios);
+            SelectedDirectorio = _configManager.Config.Esteroles.HistoricoDirectorios.Count > 0 ? _configManager.Config.Esteroles.HistoricoDirectorios[0] : "";
         }
 
         public ICommand Generar { get; private set; }
@@ -138,23 +133,14 @@ namespace EspejoAnalysis.ViewModel
         public void Initialize()
         {
             Output = "";
+            Results.Clear();
         }
 
         public void Close()
         {
-            try
-            {
-                _config.Esteroles.HistoricoDirectorios = HistoricoDirectorios.ToList();
-                if (!Directory.Exists(Path.GetDirectoryName(PATH_CONFIG)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(PATH_CONFIG));
-                }
-                File.WriteAllText(PATH_CONFIG, Serializer.Serialize(_config));
-            }
-            catch (Exception ex)
-            {
-                Output = ex.Message;
-            }
+            _configManager.Config.Esteroles.HistoricoDirectorios = HistoricoDirectorios.ToList();
+            _configManager.Config.LastAnalysis = nameof(EsterolesViewModel);
+            _configManager.Save();
         }
     }
 }

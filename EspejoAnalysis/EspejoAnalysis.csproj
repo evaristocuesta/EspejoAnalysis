@@ -75,6 +75,7 @@
     </ApplicationDefinition>
     <Compile Include="Const\Constants.cs" />
     <Compile Include="Model\ConfigEsteroles.cs" />
+    <Compile Include="Model\ConfigManager.cs" />
     <Compile Include="Model\EsterolesLogic.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\EsterolesResult.cs" />
@@ -156,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace EspejoAnalysis.Model
 {
@@ -12,5 +11,7 @@ namespace EspejoAnalysis.Model
 
         [XmlElement("Esteroles")]
         public ConfigEsteroles Esteroles { get; set; }
+
+        public string LastAnalysis { get; set; }
     }
 }
