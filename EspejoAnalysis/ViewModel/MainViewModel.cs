@@ -17,6 +17,7 @@ namespace EspejoAnalysis.ViewModel
         {
             _configManager = configManager;
             ShowAnalysisCommand = new RelayCommand<Type>(ShowAnalysisExecute);
+            CloseCommand = new RelayCommand<Type>(CloseExecute);
             if (!string.IsNullOrEmpty(_configManager.Config.LastAnalysis))
                 ShowAnalysis(_configManager.Config.LastAnalysis);
         }
@@ -40,6 +41,8 @@ namespace EspejoAnalysis.ViewModel
 
         public ICommand ShowAnalysisCommand { get; private set; }
 
+        public ICommand CloseCommand { get; private set; }
+
         private void ShowAnalysisExecute(Type type)
         {
             ShowAnalysis(type.Name);
@@ -51,6 +54,11 @@ namespace EspejoAnalysis.ViewModel
             IAnalysis analysis = SimpleIoc.Default.GetInstance<IAnalysis>(analysisName);
             analysis.Initialize();
             Analysis = analysis;
+        }
+
+        private void CloseExecute(Type obj)
+        {
+            Analysis?.Close();
         }
     }
 }
