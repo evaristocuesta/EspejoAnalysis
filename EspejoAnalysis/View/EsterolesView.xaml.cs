@@ -1,7 +1,6 @@
 ﻿using EspejoAnalysis.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
+using WPFFolderBrowser;
 
 namespace EspejoAnalysis.View
 {
@@ -17,14 +16,11 @@ namespace EspejoAnalysis.View
 
         private void btnSeleccionarDirectorio_Click(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.ShowNewFolderButton = false;
-            dlg.Description = "Seleccione un directorio";
-            dlg.SelectedPath = cmbDirectorioSeleccionado.Text;
-            DialogResult result = dlg.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            WPFFolderBrowserDialog dlg = new WPFFolderBrowserDialog();
+            dlg.InitialDirectory = cmbDirectorioSeleccionado.Text;
+            if (dlg.ShowDialog().Value)
             {
-                cmbDirectorioSeleccionado.Text = dlg.SelectedPath;
+                cmbDirectorioSeleccionado.Text = dlg.FileName;
                 ((EsterolesViewModel)DataContext).SelectedDirectorio = cmbDirectorioSeleccionado.Text;
             }
         }
