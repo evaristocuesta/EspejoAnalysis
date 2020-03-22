@@ -15,6 +15,11 @@
                       MinWidth="900"
                       WindowStartupLocation="CenterScreen"
                       WindowState="Maximized"
+                      Icon="logo-white.ico"
+                      IconScalingMode="ScaleDownLargerFrame"
+                      IconBitmapScalingMode="HighQuality"
+                      IconEdgeMode="Aliased"
+                      ShowIconOnTitleBar="True"
                       DataContext="{Binding Main, Source={StaticResource Locator}}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
