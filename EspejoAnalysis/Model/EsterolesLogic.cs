@@ -83,13 +83,21 @@ namespace EspejoAnalysis.Model
 
             Result.Name = Path.GetFileNameWithoutExtension(path);
             Result.Colesterol = Math.Round(PercentAreas[0], 1);
+            Result.ToleranceColesterol = InTolerance(Result.Colesterol, double.MinValue, 0.5);
             Result.Brasicasterol = Math.Round(PercentAreas[2], 1);
+            Result.ToleranceBrasicasterol = InTolerance(Result.Brasicasterol, double.MinValue, 0.2);
             Result.Campesterol = Math.Round(PercentAreas[4], 1);
+            Result.ToleranceCampesterol = InTolerance(Result.Campesterol, double.MinValue, 4);
             Result.Estigmasterol = Math.Round(PercentAreas[6], 1);
+            Result.ToleranceEstigmasterol = Result.Estigmasterol <= Result.Campesterol;
             Result.βSitosterol = Math.Round(PercentAreas[8] + PercentAreas[9] + PercentAreas[10] + PercentAreas[11] + PercentAreas[12] + PercentAreas[13], 1);
+            Result.ToleranceβSitosterol = InTolerance(Result.βSitosterol, 93, double.MaxValue);
             Result.δ7Estigmastenol = Math.Round(PercentAreas[14], 1);
+            Result.Toleranceδ7Estigmastenol = InTolerance(Result.δ7Estigmastenol, double.MinValue, 0.5);
             Result.EritrodiolPlusUvaol = Math.Round(PercentAreas[16] + PercentAreas[17], 1);
-            Result.Patron = Math.Round((100 - PercentAreas[1]) * 200 / PercentAreas[1], 1);
+            Result.ToleranceEritrodiolPlusUvaol = InTolerance(Result.EritrodiolPlusUvaol, double.MinValue, 4.5);
+            Result.EsterolesAbsoluto = Math.Round((100 - PercentAreas[1]) * 200 / PercentAreas[1], 1);
+            Result.ToleranceEsterolesAbsoluto = InTolerance(Result.EsterolesAbsoluto, 1000, double.MaxValue);
 
             PercentAreaEritrodiol = (ListAreas[1] * 100) / (ListAreas[1] + ListAreas[16]);
             Result.EritrodiolAbsoluto = Math.Round((100 - PercentAreaEritrodiol) * 200 / PercentAreaEritrodiol, 1);
@@ -98,6 +106,11 @@ namespace EspejoAnalysis.Model
             Result.UvaolAbsoluto = Math.Round((100 - PercentAreaUvaol) * 200 / PercentAreaUvaol, 1);
 
             return Result;
+        }
+
+        private bool InTolerance(double value, double min, double max)
+        {
+            return value >= min && value <= max;
         }
     }
 }

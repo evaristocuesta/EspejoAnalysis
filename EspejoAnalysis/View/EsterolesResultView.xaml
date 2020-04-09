@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:model="clr-namespace:EspejoAnalysis.Model"
+             xmlns:converter="clr-namespace:EspejoAnalysis.Converter"
              xmlns:local="clr-namespace:EspejoAnalysis.View"
              mc:Ignorable="d"
              d:DesignHeight="450"
@@ -12,6 +13,9 @@
              d:DataContext="{d:DesignInstance Type=model:EsterolesResult,IsDesignTimeCreatable=False}"
              Margin="5"
              Width="300">
+    <UserControl.Resources>
+        <converter:ToleranceToColorConverter x:Key="ToleranceToColor"/>
+    </UserControl.Resources>
     <GroupBox Header="{Binding Name}" 
               HeaderStringFormat="Análisis {0}"
               Controls:ControlsHelper.HeaderFontWeight="Bold"
@@ -41,7 +45,9 @@
             <TextBlock Text="{Binding Colesterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="0"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding ToleranceColesterol, Converter={StaticResource ToleranceToColor}}" />
             <Label Content="Brasicasterol"
                    Grid.Row="1"
                    Grid.Column="0"
@@ -49,7 +55,9 @@
             <TextBlock Text="{Binding Brasicasterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="1"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding ToleranceBrasicasterol, Converter={StaticResource ToleranceToColor}}"/>
             <Label Content="Campesterol"
                    Grid.Row="2"
                    Grid.Column="0"
@@ -57,7 +65,9 @@
             <TextBlock Text="{Binding Campesterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="2"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding ToleranceCampesterol, Converter={StaticResource ToleranceToColor}}" />
             <Label Content="Estigmasterol"
                    Grid.Row="3"
                    Grid.Column="0"
@@ -65,7 +75,9 @@
             <TextBlock Text="{Binding Estigmasterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="3"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding ToleranceEstigmasterol, Converter={StaticResource ToleranceToColor}}"/>
             <Label Content="β-Sitosterol"
                    Grid.Row="4"
                    Grid.Column="0"
@@ -73,7 +85,9 @@
             <TextBlock Text="{Binding βSitosterol, StringFormat={}{0:0.0} %}"
                        Grid.Row="4"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding ToleranceβSitosterol, Converter={StaticResource ToleranceToColor}}"/>
             <Label Content="δ7-Estigmastenol"
                    Grid.Row="5"
                    Grid.Column="0"
@@ -81,7 +95,9 @@
             <TextBlock Text="{Binding δ7Estigmastenol, StringFormat={}{0:0.0} %}"
                        Grid.Row="5"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding Toleranceδ7Estigmastenol, Converter={StaticResource ToleranceToColor}}"/>
             <Label Content="Eritrodiol + Uvaol"
                    Grid.Row="6"
                    Grid.Column="0"
@@ -89,15 +105,19 @@
             <TextBlock Text="{Binding EritrodiolPlusUvaol, StringFormat={}{0:0.0} %}"
                        Grid.Row="6"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding ToleranceEritrodiolPlusUvaol, Converter={StaticResource ToleranceToColor}}"/>
             <Label Content="Esteroles abs"
                    Grid.Row="7"
                    Grid.Column="0"
                    VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Patron, StringFormat={}{0:0} mg/Kg}"
+            <TextBlock Text="{Binding EsterolesAbsoluto, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="7"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="{Binding ToleranceEsterolesAbsoluto, Converter={StaticResource ToleranceToColor}}"/>
             <Label Content="Eritrodiol abs"
                    Grid.Row="8"
                    Grid.Column="0"
@@ -105,7 +125,8 @@
             <TextBlock Text="{Binding EritrodiolAbsoluto, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="8"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold" />
             <Label Content="Uvaol abs"
                    Grid.Row="9"
                    Grid.Column="0"
@@ -113,7 +134,8 @@
             <TextBlock Text="{Binding UvaolAbsoluto, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="9"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center"
+                       FontWeight="Bold" />
             <Label Content="Eritrodiol + Uvaol abs"
                    Grid.Row="10"
                    Grid.Column="0"
@@ -121,7 +143,8 @@
             <TextBlock Text="{Binding EritrodiolPlusUvaolAbs, StringFormat={}{0:0} mg/Kg}"
                        Grid.Row="10"
                        Grid.Column="1"
-                       VerticalAlignment="Center" />
+                       VerticalAlignment="Center" 
+                       FontWeight="Bold"/>
         </Grid>
     </GroupBox>
 </UserControl>

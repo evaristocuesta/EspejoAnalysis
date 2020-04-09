@@ -80,6 +80,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Const\Constants.cs" />
+    <Compile Include="Converter\ToleranceToColorConverter.cs" />
     <Compile Include="Model\ConfigEsteroles.cs" />
     <Compile Include="Model\ConfigManager.cs" />
     <Compile Include="Model\EsterolesLogic.cs" />
