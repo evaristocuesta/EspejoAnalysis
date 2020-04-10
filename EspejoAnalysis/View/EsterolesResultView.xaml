@@ -14,7 +14,9 @@
              Margin="5"
              Width="300">
     <UserControl.Resources>
-        <converter:ToleranceToColorConverter x:Key="ToleranceToColor"/>
+        <converter:BoolToColorConverter x:Key="ToleranceToColor"
+                                        ColorFalse="Red"
+                                        ColorTrue="LimeGreen" />
     </UserControl.Resources>
     <GroupBox Header="{Binding Name}" 
               HeaderStringFormat="Análisis {0}"
