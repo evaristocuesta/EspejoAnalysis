@@ -39,7 +39,6 @@ namespace EspejoAnalysis.Model
         {
             log.Info("-----------------------------------------");
             log.Info($"Calculate path {path}");
-            string output = "";
             string[] split = new string[3];
             IEnumerable<string> filas = File.ReadLines(path);
             if (filas.Count(f => true) != 18)
