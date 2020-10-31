@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:model="clr-namespace:EspejoAnalysis.Model"
              xmlns:converter="clr-namespace:EspejoAnalysis.Converter"
              xmlns:local="clr-namespace:EspejoAnalysis.View"
@@ -19,9 +18,7 @@
                                         ColorTrue="LimeGreen" />
     </UserControl.Resources>
     <GroupBox Header="{Binding Name}" 
-              HeaderStringFormat="Análisis {0}"
-              Controls:ControlsHelper.HeaderFontWeight="Bold"
-              Controls:ControlsHelper.HeaderFontSize="14">
+              HeaderStringFormat="Análisis {0}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
