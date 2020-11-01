@@ -13,8 +13,8 @@
 */
 
 using EspejoAnalysis.Model;
-using EspejoAnalysis.View.Services;
 using GalaSoft.MvvmLight.Ioc;
+using MessageDialogManagerLib;
 
 namespace EspejoAnalysis.ViewModel
 {
@@ -31,13 +31,11 @@ namespace EspejoAnalysis.ViewModel
         {
             SimpleIoc.Default.Register<ConfigManager>();
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<IAnalysis>(() => new EsterolesViewModel(SimpleIoc.Default.GetInstance<IDialogService>(),
-                SimpleIoc.Default.GetInstance<ConfigManager>()), 
-                nameof(EsterolesViewModel));
-            SimpleIoc.Default.Register<IAnalysis>(() => new MoshMoahViewModel(SimpleIoc.Default.GetInstance<IDialogService>(),
-                SimpleIoc.Default.GetInstance<ConfigManager>()), 
-                nameof(MoshMoahViewModel));
+            SimpleIoc.Default.Register<EsterolesViewModel>();
+            SimpleIoc.Default.Register<MoshMoahViewModel>();
+            SimpleIoc.Default.Register<IMessageDialogManager>(() => new MessageDialogManagerMahapps(App.Current));
+            SimpleIoc.Default.Register<IAnalysis>(() => SimpleIoc.Default.GetInstance<EsterolesViewModel>(), nameof(EsterolesViewModel));
+            SimpleIoc.Default.Register<IAnalysis>(() => SimpleIoc.Default.GetInstance<MoshMoahViewModel>(), nameof(MoshMoahViewModel));
         }
 
         public MainViewModel Main
@@ -45,14 +43,6 @@ namespace EspejoAnalysis.ViewModel
             get
             {
                 return SimpleIoc.Default.GetInstance<MainViewModel>();
-            }
-        }
-
-        public EsterolesViewModel Esteroles
-        {
-            get
-            {
-                return SimpleIoc.Default.GetInstance<EsterolesViewModel>();
             }
         }
 

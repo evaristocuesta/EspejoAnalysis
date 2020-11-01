@@ -1,7 +1,7 @@
 ﻿using EspejoAnalysis.Model;
-using EspejoAnalysis.View.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using MessageDialogManagerLib;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -12,33 +12,37 @@ namespace EspejoAnalysis.ViewModel
 {
     public class EsterolesViewModel : ViewModelBase, IAnalysis
     {
-        private IDialogService _dialogService;
+        private IMessageDialogManager _dialogService;
         private ConfigManager _configManager;
 
-        public EsterolesViewModel(IDialogService dialogService, ConfigManager configManager)
+        public EsterolesViewModel(IMessageDialogManager dialogService, ConfigManager configManager)
         {
             _dialogService = dialogService;
             _configManager = configManager;
             Results = new ObservableCollection<EsterolesResult>();
             Generar = new RelayCommand(GenerarExecute, GenerarCanExecute);
-
+            SeleccionaDirectorio = new RelayCommand(SeleccionaDirectorioExecute);
             HistoricoDirectorios = new ObservableCollection<string>(_configManager.Config.Esteroles.HistoricoDirectorios);
             SelectedDirectorio = _configManager.Config.Esteroles.HistoricoDirectorios.Count > 0 ? _configManager.Config.Esteroles.HistoricoDirectorios[0] : "";
+            TextDirectorio = SelectedDirectorio;
         }
 
         public ICommand Generar { get; private set; }
 
+        public ICommand SeleccionaDirectorio { get; private set; }
+
         private string _selectedDirectorio;
         public string SelectedDirectorio
         {
-            get
-            {
-                return _selectedDirectorio;
-            }
-            set
-            {
-                Set(ref _selectedDirectorio, value);
-            }
+            get { return _selectedDirectorio; }
+            set { Set(ref _selectedDirectorio, value); }
+        }
+
+        private string _textDirectorio;
+        public string TextDirectorio
+        {
+            get { return _textDirectorio; }
+            set { Set(ref _textDirectorio, value); }
         }
 
         public ObservableCollection<string> HistoricoDirectorios { get; set; }
@@ -60,7 +64,7 @@ namespace EspejoAnalysis.ViewModel
 
         private void GenerarExecute()
         {
-            InsertaEnHistorico(SelectedDirectorio);
+            InsertaEnHistorico(TextDirectorio);
             if (!Directory.Exists(Path.GetDirectoryName(SelectedDirectorio)))
             {
                 Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el directorio {SelectedDirectorio}\n";
@@ -113,7 +117,15 @@ namespace EspejoAnalysis.ViewModel
 
         private bool GenerarCanExecute()
         {
-            return !string.IsNullOrEmpty(SelectedDirectorio);
+            return !string.IsNullOrEmpty(TextDirectorio);
+        }
+
+        private void SeleccionaDirectorioExecute()
+        {
+            if (_dialogService.ShowFolderBrowser("Seleccione un directorio", SelectedDirectorio))
+            {
+                TextDirectorio = _dialogService.FolderPath;
+            }
         }
 
         private void InsertaEnHistorico(string directorio)

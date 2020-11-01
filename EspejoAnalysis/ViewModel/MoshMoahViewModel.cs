@@ -1,15 +1,15 @@
 ﻿using EspejoAnalysis.Model;
-using EspejoAnalysis.View.Services;
 using GalaSoft.MvvmLight;
+using MessageDialogManagerLib;
 
 namespace EspejoAnalysis.ViewModel
 {
     public class MoshMoahViewModel : ViewModelBase, IAnalysis
     {
-        private IDialogService _dialogService;
+        private IMessageDialogManager _dialogService;
         private ConfigManager _configManager;
 
-        public MoshMoahViewModel(IDialogService dialogService, ConfigManager configManager)
+        public MoshMoahViewModel(IMessageDialogManager dialogService, ConfigManager configManager)
         {
             _dialogService = dialogService;
             _configManager = configManager;
