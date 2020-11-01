@@ -38,6 +38,7 @@
                   Grid.Row="1"
                   ItemsSource="{Binding HistoricoDirectorios, Mode=TwoWay}"
                   SelectedItem="{Binding SelectedDirectorio, Mode=TwoWay}"
+                  Text="{Binding TextDirectorio}"
                   IsEditable="True"
                   Controls:TextBoxHelper.AutoWatermark="True"
                   Controls:TextBoxHelper.Watermark="Seleccione un directorio..."/>
@@ -45,14 +46,13 @@
                 x:Name="btnSeleccionarDirectorio"
                 Grid.Column="1"
                 Grid.Row="1"
-                Content="Seleccione Directorio"
-                Click="btnSeleccionarDirectorio_Click" />
+                Command="{Binding SeleccionaDirectorio}"
+                Content="Seleccione Directorio" />
 
         <Button Margin="5"
                 Grid.Column="1"
                 Grid.Row="2"
                 Command="{Binding Generar}"
-                CommandParameter="{Binding ElementName=txtPassword, Path=SecurePassword}"
                 Content="Generar" />
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       Grid.Row="3"

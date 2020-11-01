@@ -1,5 +1,5 @@
 ﻿using EspejoAnalysis.Helper;
-using EspejoAnalysis.View.Services;
+using MessageDialogManagerLib;
 using System;
 using System.IO;
 
@@ -9,9 +9,9 @@ namespace EspejoAnalysis.Model
     {
         private const string PATH_CONFIG = @".\Config.xml";
         private Config _config;
-        private IDialogService _dialogService;
+        private IMessageDialogManager _dialogService;
 
-        public ConfigManager(IDialogService dialogService)
+        public ConfigManager(IMessageDialogManager dialogService)
         {
             _dialogService = dialogService;
             try
