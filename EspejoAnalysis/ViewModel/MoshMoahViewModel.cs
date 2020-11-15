@@ -1,4 +1,5 @@
-﻿using EspejoAnalysis.Model;
+﻿using ConfigManagerLib;
+using EspejoAnalysis.Model;
 using GalaSoft.MvvmLight;
 using MessageDialogManagerLib;
 
@@ -7,9 +8,9 @@ namespace EspejoAnalysis.ViewModel
     public class MoshMoahViewModel : ViewModelBase, IAnalysis
     {
         private IMessageDialogManager _dialogService;
-        private ConfigManager _configManager;
+        private IConfigManager<Config> _configManager;
 
-        public MoshMoahViewModel(IMessageDialogManager dialogService, ConfigManager configManager)
+        public MoshMoahViewModel(IMessageDialogManager dialogService, IConfigManager<Config> configManager)
         {
             _dialogService = dialogService;
             _configManager = configManager;
