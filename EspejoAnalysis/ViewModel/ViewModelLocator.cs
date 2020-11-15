@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using ConfigManagerLib;
 using EspejoAnalysis.Model;
 using GalaSoft.MvvmLight.Ioc;
 using MessageDialogManagerLib;
@@ -29,7 +30,7 @@ namespace EspejoAnalysis.ViewModel
         /// </summary>
         static ViewModelLocator()
         {
-            SimpleIoc.Default.Register<ConfigManager>();
+            SimpleIoc.Default.Register<IConfigManager<Config>>(() => new ConfigManager<Config>(@".\Config.xml"));
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<EsterolesViewModel>();
             SimpleIoc.Default.Register<MoshMoahViewModel>();

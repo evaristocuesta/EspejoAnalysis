@@ -1,4 +1,5 @@
-﻿using EspejoAnalysis.Model;
+﻿using ConfigManagerLib;
+using EspejoAnalysis.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
@@ -10,10 +11,10 @@ namespace EspejoAnalysis.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private ConfigManager _configManager;
+        private IConfigManager<Config> _configManager;
         private IAnalysis _analysis;
 
-        public MainViewModel(ConfigManager configManager)
+        public MainViewModel(IConfigManager<Config> configManager)
         {
             _configManager = configManager;
             ShowAnalysisCommand = new RelayCommand<Type>(ShowAnalysisExecute);

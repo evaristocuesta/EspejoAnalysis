@@ -1,4 +1,5 @@
-﻿using EspejoAnalysis.Model;
+﻿using ConfigManagerLib;
+using EspejoAnalysis.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using MessageDialogManagerLib;
@@ -13,9 +14,9 @@ namespace EspejoAnalysis.ViewModel
     public class EsterolesViewModel : ViewModelBase, IAnalysis
     {
         private IMessageDialogManager _dialogService;
-        private ConfigManager _configManager;
+        private IConfigManager<Config> _configManager;
 
-        public EsterolesViewModel(IMessageDialogManager dialogService, ConfigManager configManager)
+        public EsterolesViewModel(IMessageDialogManager dialogService, IConfigManager<Config> configManager)
         {
             _dialogService = dialogService;
             _configManager = configManager;
