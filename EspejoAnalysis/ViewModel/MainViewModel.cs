@@ -2,8 +2,8 @@
 using EspejoAnalysis.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Ioc;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Input;
 
@@ -12,26 +12,29 @@ namespace EspejoAnalysis.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private IConfigManager<Config> _configManager;
-        private IAnalysis _analysis;
+        private Dictionary<string, IAnalysis> _analysisViewModels;
+        private IAnalysis _analysisSelected;
 
-        public MainViewModel(IConfigManager<Config> configManager)
+        public MainViewModel(IConfigManager<Config> configManager,
+            Dictionary<string, IAnalysis> analysisViewModels)
         {
             _configManager = configManager;
+            _analysisViewModels = analysisViewModels;
             ShowAnalysisCommand = new RelayCommand<Type>(ShowAnalysisExecute);
-            CloseCommand = new RelayCommand<Type>(CloseExecute);
+            CloseCommand = new RelayCommand(CloseExecute);
             if (!string.IsNullOrEmpty(_configManager.Config.LastAnalysis))
                 ShowAnalysis(_configManager.Config.LastAnalysis);
         }
 
-        public IAnalysis Analysis
+        public IAnalysis AnalysisSelected
         {
             get
             {
-                return _analysis;
+                return _analysisSelected;
             }
             set
             {
-                Set(ref _analysis, value);
+                Set(ref _analysisSelected, value);
             }
         }
 
@@ -51,15 +54,15 @@ namespace EspejoAnalysis.ViewModel
 
         private void ShowAnalysis(string analysisName)
         {
-            Analysis?.Close();
-            IAnalysis analysis = SimpleIoc.Default.GetInstance<IAnalysis>(analysisName);
+            AnalysisSelected?.Close();
+            IAnalysis analysis = _analysisViewModels[analysisName];
             analysis.Initialize();
-            Analysis = analysis;
+            AnalysisSelected = analysis;
         }
 
-        private void CloseExecute(Type obj)
+        private void CloseExecute()
         {
-            Analysis?.Close();
+            AnalysisSelected?.Close();
         }
     }
 }

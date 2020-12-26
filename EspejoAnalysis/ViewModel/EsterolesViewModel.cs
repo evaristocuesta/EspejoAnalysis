@@ -6,6 +6,7 @@ using MessageDialogManagerLib;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Windows.Input;
 
@@ -15,11 +16,18 @@ namespace EspejoAnalysis.ViewModel
     {
         private IMessageDialogManager _dialogService;
         private IConfigManager<Config> _configManager;
+        private IEsterolesLogic _esterolesLogic;
+        private IFileSystem _fileSystem;
 
-        public EsterolesViewModel(IMessageDialogManager dialogService, IConfigManager<Config> configManager)
+        public EsterolesViewModel(IMessageDialogManager dialogService, 
+            IConfigManager<Config> configManager, 
+            IEsterolesLogic esterolesLogic,
+            IFileSystem fileSystem)
         {
             _dialogService = dialogService;
             _configManager = configManager;
+            _esterolesLogic = esterolesLogic;
+            _fileSystem = fileSystem;
             Results = new ObservableCollection<EsterolesResult>();
             Generar = new RelayCommand(GenerarExecute, GenerarCanExecute);
             SeleccionaDirectorio = new RelayCommand(SeleccionaDirectorioExecute);
@@ -66,7 +74,7 @@ namespace EspejoAnalysis.ViewModel
         private void GenerarExecute()
         {
             InsertaEnHistorico(TextDirectorio);
-            if (!Directory.Exists(Path.GetDirectoryName(SelectedDirectorio)))
+            if (!_fileSystem.Directory.Exists(_fileSystem.Path.GetDirectoryName(SelectedDirectorio)))
             {
                 Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el directorio {SelectedDirectorio}\n";
                 _dialogService.ShowInfoDialogAsync("Error", $"No existe el directorio {SelectedDirectorio}");
@@ -75,23 +83,22 @@ namespace EspejoAnalysis.ViewModel
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(SelectedDirectorio, "*.csv", SearchOption.TopDirectoryOnly);
+                    string[] files = _fileSystem.Directory.GetFiles(SelectedDirectorio, "*.csv", SearchOption.TopDirectoryOnly);
                     Results.Clear();
                     if (files.Length > 0)
                     {
                         foreach (string file in files)
                         {
-                            if (!File.Exists(file))
+                            if (!_fileSystem.File.Exists(file))
                             {
                                 Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el fichero {file}\n";
                                 _dialogService.ShowInfoDialogAsync("Error", $"No existe el fichero {file}");
                             }
                             else
                             {
-                                EsterolesLogic analysis = new EsterolesLogic();
                                 try
                                 {
-                                    Results.Add(analysis.Calculate(file));
+                                    Results.Add(_esterolesLogic.Calculate(file));
                                     Output += $"{ DateTime.Now.ToShortTimeString()} - {Results.Last()}\n";
                                 }
                                 catch (Exception ex)

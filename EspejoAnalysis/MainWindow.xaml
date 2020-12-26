@@ -41,7 +41,7 @@
                     Command="{Binding ShowAnalysisCommand}"
                     CommandParameter="{x:Type ViewModel:MoshMoahViewModel}" />
         </StackPanel>
-        <Controls:TransitioningContentControl Content="{Binding Analysis}"
+        <Controls:TransitioningContentControl Content="{Binding AnalysisSelected}"
                                               Transition="Default"
                                               Grid.Column="1" />
     </Grid>
