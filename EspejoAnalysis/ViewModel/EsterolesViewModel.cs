@@ -73,14 +73,14 @@ namespace EspejoAnalysis.ViewModel
 
         private void GenerarExecute()
         {
-            InsertaEnHistorico(TextDirectorio);
-            if (!_fileSystem.Directory.Exists(_fileSystem.Path.GetDirectoryName(SelectedDirectorio)))
+            if (!_fileSystem.Directory.Exists(_fileSystem.Path.GetDirectoryName(TextDirectorio)))
             {
                 Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el directorio {SelectedDirectorio}\n";
                 _dialogService.ShowInfoDialogAsync("Error", $"No existe el directorio {SelectedDirectorio}");
             }
             else
             {
+                InsertaEnHistorico(TextDirectorio);
                 try
                 {
                     string[] files = _fileSystem.Directory.GetFiles(SelectedDirectorio, "*.csv", SearchOption.TopDirectoryOnly);
@@ -142,7 +142,7 @@ namespace EspejoAnalysis.ViewModel
             {
                 HistoricoDirectorios.Remove(directorio);
             }
-            if (HistoricoDirectorios.Count > 10)
+            if (HistoricoDirectorios.Count >= 10)
             {
                 HistoricoDirectorios.RemoveAt(HistoricoDirectorios.Count - 1);
             }
