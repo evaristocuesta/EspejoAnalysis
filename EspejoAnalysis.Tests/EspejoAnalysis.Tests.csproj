@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EsterolesLogicTests.cs" />
     <Compile Include="EsterolesViewModelTests.cs" />
     <Compile Include="MainViewModelTests.cs" />
     <Compile Include="MoshMoahViewModelTests.cs" />

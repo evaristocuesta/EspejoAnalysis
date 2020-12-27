@@ -37,7 +37,7 @@ namespace EspejoAnalysis.ViewModel
             SimpleIoc.Default.Register<IConfigManager<Config>>(() => new ConfigManager<Config>(@".\Config.xml"));
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<EsterolesViewModel>();
-            SimpleIoc.Default.Register<EsterolesLogic>();
+            SimpleIoc.Default.Register<IEsterolesLogic, EsterolesLogic>();
             SimpleIoc.Default.Register<MoshMoahViewModel>();
             SimpleIoc.Default.Register<IMessageDialogManager>(() => new MessageDialogManagerMahapps(App.Current));
             SimpleIoc.Default.Register<IAnalysis>(() => SimpleIoc.Default.GetInstance<EsterolesViewModel>(), nameof(EsterolesViewModel));
