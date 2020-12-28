@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Abstractions;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace EspejoAnalysis.Tests
             _mockFileSystem = new Mock<IFileSystem>();
         }
 
-        public static IEnumerable<object[]> Data =>
+        public static IEnumerable<object[]> CalculateShouldReturnExpectedResultsData =>
         new List<object[]>
         {
             new object[]
@@ -160,7 +161,7 @@ namespace EspejoAnalysis.Tests
         };
 
         [Theory]
-        [MemberData(nameof(Data))]
+        [MemberData(nameof(CalculateShouldReturnExpectedResultsData))]
         public void CalculateShouldReturnExpectedResults(string file, string[] readLines, EsterolesResult expected)
         {
             // Arrange
@@ -228,6 +229,110 @@ namespace EspejoAnalysis.Tests
             // Assert
             var ex = Assert.Throws<Exception>(() => esterolesLogic.Calculate(file));
             Assert.Equal($"El archivo {file} no tiene el formato correcto\n", ex.Message);
+        }
+
+        public static IEnumerable<object[]> ExportShouldExportCSVData =>
+        new List<object[]>
+        {
+            new object[]
+            {
+                "export1.csv",
+                new ObservableCollection<EsterolesResult>
+                {
+                    new EsterolesResult
+                    {
+                        Brasicasterol = 0.031294515398333889,
+                        Campesterol = 3.2919204711008327,
+                        Colesterol = 0.26831894875231227,
+                        EritrodiolAbsoluto = 66.760603683657777,
+                        EritrodiolPlusUvaol = 3.7332199062199525,
+                        EsterolesAbsoluto = 1828.3332423254358,
+                        Estigmasterol = 1.0969051349893317,
+                        Name = "30592",
+                        ToleranceBrasicasterol = true,
+                        ToleranceCampesterol = true,
+                        ToleranceColesterol = true,
+                        ToleranceEritrodiolPlusUvaol = true,
+                        ToleranceEsterolesAbsoluto = true,
+                        ToleranceEstigmasterol = true,
+                        ToleranceβSitosterol = true,
+                        Toleranceδ7Estigmastenol = true,
+                        UvaolAbsoluto = 4.142048807717984,
+                        βSitosterol = 93.981291163439849,
+                        δ7Estigmastenol = 0.32058429694315305
+                    },
+                    new EsterolesResult
+                    {
+                        Brasicasterol = 0.042275321091646979,
+                        Campesterol = 4.1712265674001214,
+                        Colesterol = 0.16004181630633063,
+                        EritrodiolAbsoluto = 29.74156780788508,
+                        EritrodiolPlusUvaol = 1.9046057764297713,
+                        EsterolesAbsoluto = 1689.4923562461261,
+                        Estigmasterol = 1.2231726761273705,
+                        Name = "6298",
+                        ToleranceBrasicasterol = true,
+                        ToleranceCampesterol = false,
+                        ToleranceColesterol = true,
+                        ToleranceEritrodiolPlusUvaol = true,
+                        ToleranceEsterolesAbsoluto = true,
+                        ToleranceEstigmasterol = true,
+                        ToleranceβSitosterol = true,
+                        Toleranceδ7Estigmastenol = true,
+                        UvaolAbsoluto = 3.0613678080986508,
+                        βSitosterol = 93.2463080347862,
+                        δ7Estigmastenol = 0.13766864070309304
+                    },
+                    new EsterolesResult
+                    {
+                        Brasicasterol = 0.03829351844385543,
+                        Campesterol = 3.9756556896448925,
+                        Colesterol = 0.16493896637794334,
+                        EritrodiolAbsoluto = 24.972754098365392,
+                        EritrodiolPlusUvaol = 1.582580393162405,
+                        EsterolesAbsoluto = 1622.6276952368435,
+                        Estigmasterol = 1.1072609850087438,
+                        Name = "6300",
+                        ToleranceBrasicasterol = true,
+                        ToleranceCampesterol = true,
+                        ToleranceColesterol = true,
+                        ToleranceEritrodiolPlusUvaol = true,
+                        ToleranceEsterolesAbsoluto = true,
+                        ToleranceEstigmasterol = true,
+                        ToleranceβSitosterol = true,
+                        Toleranceδ7Estigmastenol = true,
+                        UvaolAbsoluto = 1.1195655960815079,
+                        βSitosterol = 93.556858372006928,
+                        δ7Estigmastenol = 0.11352327514309252
+                    }
+                },
+                new List<string>
+                {
+                    "Analisis;EC;EB;ECA;EES;EBS;ED7E;ESTA;ERIABS;UVAABS;ERIUVAABS;ERI",
+                    "30592;0,268318948752312;0,0312945153983339;3,29192047110083;1,09690513498933;93,9812911634398;0,320584296943153;1828,33324232544;66,7606036836578;4,14204880771798;70,9026524913758;3,73321990621995",
+                    "6298;0,160041816306331;0,042275321091647;4,17122656740012;1,22317267612737;93,2463080347862;0,137668640703093;1689,49235624613;29,7415678078851;3,06136780809865;32,8029356159837;1,90460577642977",
+                    "6300;0,164938966377943;0,0382935184438554;3,97565568964489;1,10726098500874;93,5568583720069;0,113523275143093;1622,62769523684;24,9727540983654;1,11956559608151;26,0923196944469;1,5825803931624"
+                }
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(ExportShouldExportCSVData))]
+        public void ExportShouldExportCSV(string path, ObservableCollection<EsterolesResult> results, List<string> expected)
+        {
+            // Arrange
+            _mockFileSystem.Setup(f => f.File.WriteAllLines(path, It.IsAny<List<string>>()));
+
+            // Act
+            var esterolesLogic = new EsterolesLogic(_mockFileSystem.Object);
+            List<string> stringsToCsv = esterolesLogic.ConvertResultToStringsToCsv(results);
+
+            // Assert
+            Assert.Equal(expected.Count, stringsToCsv.Count);
+            Assert.Equal(expected[0], stringsToCsv[0]);
+            Assert.Equal(expected[1], stringsToCsv[1]);
+            Assert.Equal(expected[2], stringsToCsv[2]);
+            Assert.Equal(expected[3], stringsToCsv[3]);
         }
     }
 }

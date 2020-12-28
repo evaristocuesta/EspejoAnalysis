@@ -78,8 +78,8 @@ namespace EspejoAnalysis.ViewModel
         {
             if (!_fileSystem.Directory.Exists(_fileSystem.Path.GetDirectoryName(TextDirectorio)))
             {
-                Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el directorio {SelectedDirectorio}\n";
-                _dialogService.ShowInfoDialogAsync("Error", $"No existe el directorio {SelectedDirectorio}");
+                Output += $"{DateTime.Now.ToShortTimeString()} Error: No existe el directorio {TextDirectorio}\n";
+                _dialogService.ShowInfoDialogAsync("Error", $"No existe el directorio {TextDirectorio}");
             }
             else
             {
@@ -121,8 +121,8 @@ namespace EspejoAnalysis.ViewModel
                 catch (Exception ex)
                 {
                     Output += $"{DateTime.Now.ToShortTimeString()} Error: {ex.Message}\n";
+                    _dialogService.ShowInfoDialogAsync("Error", $"Error: {ex.Message}");
                 }
-
             }
         }
 
@@ -148,7 +148,14 @@ namespace EspejoAnalysis.ViewModel
         {
             if (_dialogService.ShowSaveFileDialog("Exportar CSV", "", "export.csv", ".csv", "CSV documents (.csv)|*.csv"))
             {
-                _esterolesLogic.Export(_dialogService.FilePathToSave, Results);
+                try
+                {
+                    _esterolesLogic.Export(_dialogService.FilePathToSave, Results);
+                }
+                catch (Exception ex)
+                {
+                    _dialogService.ShowInfoDialogAsync("Error", $"Error: {ex.Message}");
+                }
             }
         }
 

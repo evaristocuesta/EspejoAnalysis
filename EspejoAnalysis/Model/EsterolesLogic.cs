@@ -107,13 +107,13 @@ namespace EspejoAnalysis.Model
             _fileSystem.File.WriteAllLines(path, ConvertResultToStringsToCsv(results));
         }
 
-        private List<string> ConvertResultToStringsToCsv(ObservableCollection<EsterolesResult> results)
+        public List<string> ConvertResultToStringsToCsv(ObservableCollection<EsterolesResult> results)
         {
             List<string> stringsToCsv = new List<string>();
-            stringsToCsv.Add("Análisis;EC;EB;ECA;EES;EBS;ED7E;ESTA;ERIABS;UVAABS;ERIUVAABS;ERI");
+            stringsToCsv.Add("Analisis;EC;EB;ECA;EES;EBS;ED7E;ESTA;ERIABS;UVAABS;ERIUVAABS;ERI");
             foreach (var r in results)
             {
-                stringsToCsv.Add($"{r.Colesterol};{r.Brasicasterol};{r.Campesterol};{r.Estigmasterol}" +
+                stringsToCsv.Add($"{r.Name};{r.Colesterol};{r.Brasicasterol};{r.Campesterol};{r.Estigmasterol}" +
                     $";{r.βSitosterol};{r.δ7Estigmastenol};{r.EsterolesAbsoluto};{r.EritrodiolAbsoluto};" +
                     $"{r.UvaolAbsoluto};{r.EritrodiolPlusUvaolAbs};{r.EritrodiolPlusUvaol}");
             }

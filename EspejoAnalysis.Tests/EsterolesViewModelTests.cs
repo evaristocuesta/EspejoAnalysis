@@ -5,6 +5,7 @@ using MessageDialogManagerLib;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
@@ -364,6 +365,111 @@ namespace EspejoAnalysis.Tests
             Assert.Empty(esterolesViewModel.Results);
             _mockDialog.Verify(d => d.ShowInfoDialogAsync("Error", $"Error: Exception error"),
                 Times.Exactly(files.Length));
+        }
+
+        [Theory]
+        [InlineData("file1.csv")]
+        [InlineData("file1.csv", "file2.csv")]
+        public void ExportarCommandShouldExecute(params string[] files)
+        {
+            // Arrange
+            _mockConfig.SetupGet(config => config.Config)
+                .Returns(new Config());
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
+                .Returns(true);
+            _mockDialog.SetupGet(d => d.FolderPath)
+                .Returns(@"C:\Example");
+            _mockFileSystem.Setup(f => f.Directory.Exists(It.IsAny<string>()))
+                .Returns(true);
+            _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
+                .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(files);
+            _mockFileSystem.Setup(f => f.File.Exists(It.IsAny<string>()))
+                .Returns(true);
+            _mockEsterolesLogic.Setup(e => e.Calculate(It.IsAny<string>()))
+                .Returns(new EsterolesResult());
+
+            // Act
+            var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
+                _mockEsterolesLogic.Object, _mockFileSystem.Object);
+            esterolesViewModel.SeleccionaDirectorio.Execute(null);
+            esterolesViewModel.Generar.Execute(null);
+
+            // Assert
+            Assert.True(esterolesViewModel.Exportar.CanExecute(null));
+        }
+
+        [Fact]
+        public void ExportarCommandShouldNotExecute()
+        {
+            // Arrange
+            _mockConfig.SetupGet(config => config.Config)
+                .Returns(new Config());
+            // Act
+            var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
+                _mockEsterolesLogic.Object, _mockFileSystem.Object);
+
+            // Assert
+            Assert.False(esterolesViewModel.Exportar.CanExecute(null));
+        }
+
+        [Theory]
+        [InlineData("file1.csv")]
+        [InlineData("file1.csv", "file2.csv")]
+        public void ExportarCommandShouldExportCsv(params string[] files)
+        {
+            // Arrange
+            _mockConfig.SetupGet(config => config.Config)
+                .Returns(new Config());
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
+                .Returns(true);
+            _mockDialog.SetupGet(d => d.FolderPath)
+                .Returns(@"C:\Example");
+            _mockFileSystem.Setup(f => f.Directory.Exists(It.IsAny<string>()))
+                .Returns(true);
+            _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
+                .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(files);
+            _mockFileSystem.Setup(f => f.File.Exists(It.IsAny<string>()))
+                .Returns(true);
+            _mockEsterolesLogic.Setup(e => e.Calculate(It.IsAny<string>()))
+                .Returns(new EsterolesResult());
+            _mockDialog.Setup(d => d.ShowSaveFileDialog("Exportar CSV",
+                "",
+                "export.csv",
+                ".csv",
+                "CSV documents (.csv)|*.csv"))
+                .Returns(true);
+            _mockDialog.SetupGet(d => d.FilePathToSave)
+                .Returns(It.IsAny<string>());
+
+            // Act
+            var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
+                _mockEsterolesLogic.Object, _mockFileSystem.Object);
+            esterolesViewModel.SeleccionaDirectorio.Execute(null);
+            esterolesViewModel.Generar.Execute(null);
+            esterolesViewModel.Exportar.Execute(null);
+
+            // Assert
+            Assert.True(esterolesViewModel.Exportar.CanExecute(null));
+            _mockDialog.Verify(d => d.ShowSaveFileDialog("Exportar CSV",
+                "",
+                "export.csv",
+                ".csv",
+                "CSV documents (.csv)|*.csv"),
+                Times.Once);
+            _mockDialog.Verify(d => d.FilePathToSave, Times.Once);
+            _mockEsterolesLogic.Verify(e => e.Export(It.IsAny<string>(),
+                It.IsAny<ObservableCollection<EsterolesResult>>()),
+                Times.Once);
         }
     }
 }
