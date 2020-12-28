@@ -36,3 +36,12 @@ jobs:
 
       - name: Build the Solution
         run: msbuild EspejoAnalysis.sln /p:Configuration=Release
+        
+      - name: Setup VSTest and add to PATH
+        uses: darenm/Setup-VSTest@v1
+        id: setup_vstest
+
+      - name: Run VSTest
+        id: run_vstest
+        working-directory: $\bin\Release\
+        run: vstest.console.exe .\EspejoAnalysis.Tests\bin\Release\EspejoAnalysis.Tests.dll        
