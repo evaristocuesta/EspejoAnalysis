@@ -109,13 +109,23 @@ namespace EspejoAnalysis.Model
 
         public List<string> ConvertResultToStringsToCsv(ObservableCollection<EsterolesResult> results)
         {
+            CultureInfo culture = new CultureInfo("es-ES");
             List<string> stringsToCsv = new List<string>();
             stringsToCsv.Add("Analisis;EC;EB;ECA;EES;EBS;ED7E;ESTA;ERIABS;UVAABS;ERIUVAABS;ERI");
             foreach (var r in results)
             {
-                stringsToCsv.Add($"{r.Name};{r.Colesterol};{r.Brasicasterol};{r.Campesterol};{r.Estigmasterol}" +
-                    $";{r.βSitosterol};{r.δ7Estigmastenol};{r.EsterolesAbsoluto};{r.EritrodiolAbsoluto};" +
-                    $"{r.UvaolAbsoluto};{r.EritrodiolPlusUvaolAbs};{r.EritrodiolPlusUvaol}");
+                stringsToCsv.Add($"{r.Name};" +
+                    $"{r.Colesterol.ToString(culture)};" +
+                    $"{r.Brasicasterol.ToString(culture)};" +
+                    $"{r.Campesterol.ToString(culture)};" +
+                    $"{r.Estigmasterol.ToString(culture)};" +
+                    $"{r.βSitosterol.ToString(culture)};" +
+                    $"{r.δ7Estigmastenol.ToString(culture)};" +
+                    $"{r.EsterolesAbsoluto.ToString(culture)};" +
+                    $"{r.EritrodiolAbsoluto.ToString(culture)};" +
+                    $"{r.UvaolAbsoluto.ToString(culture)};" +
+                    $"{r.EritrodiolPlusUvaolAbs.ToString(culture)};" +
+                    $"{r.EritrodiolPlusUvaol.ToString(culture)}");
             }
             return stringsToCsv;
         }
