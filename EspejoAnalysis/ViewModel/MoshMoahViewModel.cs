@@ -7,8 +7,8 @@ namespace EspejoAnalysis.ViewModel
 {
     public class MoshMoahViewModel : ViewModelBase, IAnalysis
     {
-        private IMessageDialogManager _dialogService;
-        private IConfigManager<Config> _configManager;
+        private readonly IMessageDialogManager _dialogService;
+        private readonly IConfigManager<Config> _configManager;
 
         public MoshMoahViewModel(IMessageDialogManager dialogService, IConfigManager<Config> configManager)
         {

@@ -14,10 +14,10 @@ namespace EspejoAnalysis.ViewModel
 {
     public class EsterolesViewModel : ViewModelBase, IAnalysis
     {
-        private IMessageDialogManager _dialogService;
-        private IConfigManager<Config> _configManager;
-        private IEsterolesLogic _esterolesLogic;
-        private IFileSystem _fileSystem;
+        private readonly IMessageDialogManager _dialogService;
+        private readonly IConfigManager<Config> _configManager;
+        private readonly IEsterolesLogic _esterolesLogic;
+        private readonly IFileSystem _fileSystem;
 
         public EsterolesViewModel(IMessageDialogManager dialogService, 
             IConfigManager<Config> configManager, 

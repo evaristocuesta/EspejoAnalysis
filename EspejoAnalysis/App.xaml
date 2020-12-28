@@ -8,7 +8,7 @@
              Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
-            <vm:ViewModelLocator x:Key="Locator" xmlns:vm="clr-namespace:EspejoAnalysis.ViewModel" />
+            <ViewModel:ViewModelLocator x:Key="Locator" />
             <DataTemplate DataType="{x:Type ViewModel:EsterolesViewModel}">
                 <View:EsterolesView />
             </DataTemplate>
@@ -16,8 +16,10 @@
                 <View:MoshMoahView />
             </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <!-- Theme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

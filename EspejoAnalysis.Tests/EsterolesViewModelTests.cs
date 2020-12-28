@@ -52,7 +52,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example");
@@ -62,7 +62,7 @@ namespace EspejoAnalysis.Tests
             esterolesViewModel.SeleccionaDirectorio.Execute(null);
 
             // Assert
-            _mockDialog.Verify(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()),
+            _mockDialog.Verify(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false),
                 Times.Once);
             Assert.Equal(@"C:\Example", esterolesViewModel.TextDirectorio);
         }
@@ -73,7 +73,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example");
@@ -92,7 +92,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(false);
             // Act
             var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
@@ -109,7 +109,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example");
@@ -133,7 +133,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example");
@@ -160,7 +160,7 @@ namespace EspejoAnalysis.Tests
             config.Esteroles.HistoricoDirectorios.Add(@"C:\Example1");
             _mockConfig.SetupGet(c => c.Config)
                 .Returns(config);
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example2");
@@ -190,7 +190,7 @@ namespace EspejoAnalysis.Tests
             config.Esteroles.HistoricoDirectorios.Add(@"C:\Example3");
             _mockConfig.SetupGet(c => c.Config)
                 .Returns(config);
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example2");
@@ -228,7 +228,7 @@ namespace EspejoAnalysis.Tests
             config.Esteroles.HistoricoDirectorios.Add(@"C:\Example10");
             _mockConfig.SetupGet(c => c.Config)
                 .Returns(config);
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example11");
@@ -262,7 +262,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example");
@@ -292,7 +292,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example");
@@ -332,7 +332,7 @@ namespace EspejoAnalysis.Tests
             // Arrange
             _mockConfig.SetupGet(config => config.Config)
                 .Returns(new Config());
-            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>()))
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
                 .Returns(true);
             _mockDialog.SetupGet(d => d.FolderPath)
                 .Returns(@"C:\Example");

@@ -9,7 +9,7 @@ namespace EspejoAnalysis.Model
     public class EsterolesLogic : IEsterolesLogic
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private IFileSystem _fileSystem;
+        private readonly IFileSystem _fileSystem;
 
         public EsterolesLogic(IFileSystem fileSystem)
         {
@@ -43,9 +43,12 @@ namespace EspejoAnalysis.Model
                 {
                     log.Info($"Fila: {fila}");
                     split = fila.Split('\t');
-                    double numero = 0;
-                    log.Info($"split[2]: {split[2]}");
-                    if (double.TryParse(split[2], NumberStyles.Float, new CultureInfo("en-US"), out numero))
+                    if (split.Length != 3)
+                    {
+                        log.Error("La fila no tiene el formato correcto");
+                        throw new Exception($"El archivo {path} no tiene el formato correcto\n");
+                    }
+                    if (double.TryParse(split[2], NumberStyles.Float, new CultureInfo("en-US"), out double numero))
                     {
                         log.Info($"Convierte el número: {numero}");
                         ListAreas.Add(numero);
