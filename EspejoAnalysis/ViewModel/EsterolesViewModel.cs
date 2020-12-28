@@ -31,6 +31,7 @@ namespace EspejoAnalysis.ViewModel
             Results = new ObservableCollection<EsterolesResult>();
             Generar = new RelayCommand(GenerarExecute, GenerarCanExecute);
             SeleccionaDirectorio = new RelayCommand(SeleccionaDirectorioExecute);
+            Exportar = new RelayCommand(ExportarExecute, ExportarCanExecute);
             HistoricoDirectorios = new ObservableCollection<string>(_configManager.Config.Esteroles.HistoricoDirectorios);
             SelectedDirectorio = _configManager.Config.Esteroles.HistoricoDirectorios.Count > 0 ? _configManager.Config.Esteroles.HistoricoDirectorios[0] : "";
             TextDirectorio = SelectedDirectorio;
@@ -39,6 +40,8 @@ namespace EspejoAnalysis.ViewModel
         public ICommand Generar { get; private set; }
 
         public ICommand SeleccionaDirectorio { get; private set; }
+
+        public ICommand Exportar { get; private set; }
 
         private string _selectedDirectorio;
         public string SelectedDirectorio
@@ -133,6 +136,19 @@ namespace EspejoAnalysis.ViewModel
             if (_dialogService.ShowFolderBrowser("Seleccione un directorio", SelectedDirectorio))
             {
                 TextDirectorio = _dialogService.FolderPath;
+            }
+        }
+
+        private bool ExportarCanExecute()
+        {
+            return Results.Count > 0;
+        }
+
+        private void ExportarExecute()
+        {
+            if (_dialogService.ShowSaveFileDialog("Exportar CSV", "", "export.csv", ".csv", "CSV documents (.csv)|*.csv"))
+            {
+                _esterolesLogic.Export(_dialogService.FilePathToSave, Results);
             }
         }
 

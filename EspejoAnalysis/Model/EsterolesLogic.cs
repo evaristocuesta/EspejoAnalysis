@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO.Abstractions;
 using System.Linq;
@@ -99,6 +100,24 @@ namespace EspejoAnalysis.Model
             Result.UvaolAbsoluto = (100 - PercentAreaUvaol) * 200 / PercentAreaUvaol;
 
             return Result;
+        }
+
+        public void Export(string path, ObservableCollection<EsterolesResult> results)
+        {
+            _fileSystem.File.WriteAllLines(path, ConvertResultToStringsToCsv(results));
+        }
+
+        private List<string> ConvertResultToStringsToCsv(ObservableCollection<EsterolesResult> results)
+        {
+            List<string> stringsToCsv = new List<string>();
+            stringsToCsv.Add("Análisis;EC;EB;ECA;EES;EBS;ED7E;ESTA;ERIABS;UVAABS;ERIUVAABS;ERI");
+            foreach (var r in results)
+            {
+                stringsToCsv.Add($"{r.Colesterol};{r.Brasicasterol};{r.Campesterol};{r.Estigmasterol}" +
+                    $";{r.βSitosterol};{r.δ7Estigmastenol};{r.EsterolesAbsoluto};{r.EritrodiolAbsoluto};" +
+                    $"{r.UvaolAbsoluto};{r.EritrodiolPlusUvaolAbs};{r.EritrodiolPlusUvaol}");
+            }
+            return stringsToCsv;
         }
 
         private bool InTolerance(double value, double min, double max)
