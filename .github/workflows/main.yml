@@ -43,6 +43,5 @@ jobs:
 
       - name: Run VSTest
         id: run_vstest
-        run: |
-          dir
+        run: 
           vstest.console.exe EspejoAnalysis.Tests\bin\Release\EspejoAnalysis.Tests.dll        
