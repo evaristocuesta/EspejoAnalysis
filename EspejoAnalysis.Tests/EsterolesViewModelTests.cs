@@ -278,7 +278,7 @@ namespace EspejoAnalysis.Tests
             esterolesViewModel.Generar.Execute(null);
 
             // Assert
-            _mockDialog.Verify(d => 
+            _mockDialog.Verify(d =>
                 d.ShowInfoDialogAsync(
                     "Info",
                     "No hay análisis en este directorio"),
@@ -318,7 +318,7 @@ namespace EspejoAnalysis.Tests
             esterolesViewModel.Generar.Execute(null);
 
             // Assert
-            _mockFileSystem.Verify(f => f.File.Exists(It.IsAny<string>()), 
+            _mockFileSystem.Verify(f => f.File.Exists(It.IsAny<string>()),
                 Times.Exactly(files.Length));
             _mockEsterolesLogic.Verify(e => e.Calculate(It.IsAny<string>()),
                 Times.Exactly(files.Length));
@@ -470,6 +470,57 @@ namespace EspejoAnalysis.Tests
             _mockEsterolesLogic.Verify(e => e.Export(It.IsAny<string>(),
                 It.IsAny<ObservableCollection<EsterolesResult>>()),
                 Times.Once);
+        }
+
+        [Theory]
+        [InlineData("file1.csv")]
+        [InlineData("file1.csv", "file2.csv")]
+        public void ExportarCommandShouldShowInfoDialogIfEsterolesLogicThrowsException(params string[] files)
+        {
+            // Arrange
+            _mockConfig.SetupGet(config => config.Config)
+                .Returns(new Config());
+            _mockDialog.Setup(d => d.ShowFolderBrowser(It.IsAny<string>(), It.IsAny<string>(), false))
+                .Returns(true);
+            _mockDialog.SetupGet(d => d.FolderPath)
+                .Returns(@"C:\Example");
+            _mockFileSystem.Setup(f => f.Directory.Exists(It.IsAny<string>()))
+                .Returns(true);
+            _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
+                .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(files);
+            _mockFileSystem.Setup(f => f.File.Exists(It.IsAny<string>()))
+                .Returns(true);
+            _mockEsterolesLogic.Setup(e => e.Calculate(It.IsAny<string>()))
+                .Throws(new Exception("Exception error"));
+            _mockDialog.Setup(d => d.ShowSaveFileDialog("Exportar CSV",
+                "",
+                "export.csv",
+                ".csv",
+                "CSV documents (.csv)|*.csv"))
+                .Returns(true);
+            _mockDialog.SetupGet(d => d.FilePathToSave)
+                .Returns(It.IsAny<string>());
+
+            // Act
+            var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
+                _mockEsterolesLogic.Object, _mockFileSystem.Object);
+            esterolesViewModel.SeleccionaDirectorio.Execute(null);
+            esterolesViewModel.Generar.Execute(null);
+            esterolesViewModel.Exportar.Execute(null);
+
+            // Assert
+            _mockFileSystem.Verify(f => f.File.Exists(It.IsAny<string>()),
+                Times.Exactly(files.Length));
+            _mockEsterolesLogic.Verify(e => e.Calculate(It.IsAny<string>()),
+                Times.Exactly(files.Length));
+            Assert.Empty(esterolesViewModel.Results);
+            _mockDialog.Verify(d => d.ShowInfoDialogAsync("Error", $"Error: Exception error"),
+                Times.Exactly(files.Length));
         }
     }
 }
