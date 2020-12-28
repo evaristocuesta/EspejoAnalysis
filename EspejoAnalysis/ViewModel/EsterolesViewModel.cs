@@ -83,13 +83,13 @@ namespace EspejoAnalysis.ViewModel
             }
             else
             {
-                InsertaEnHistorico(TextDirectorio);
                 try
                 {
-                    string[] files = _fileSystem.Directory.GetFiles(SelectedDirectorio, "*.csv", SearchOption.TopDirectoryOnly);
+                    string[] files = _fileSystem.Directory.GetFiles(TextDirectorio, "*.csv", SearchOption.TopDirectoryOnly);
                     Results.Clear();
                     if (files.Length > 0)
                     {
+                        InsertaEnHistorico(TextDirectorio);
                         foreach (string file in files)
                         {
                             if (!_fileSystem.File.Exists(file))

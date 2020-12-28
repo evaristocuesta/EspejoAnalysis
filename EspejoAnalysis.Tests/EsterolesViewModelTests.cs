@@ -118,6 +118,11 @@ namespace EspejoAnalysis.Tests
                 .Returns(true);
             _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
                 .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(new string[] { "file1.csv" });
             // Act
             var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
                 _mockEsterolesLogic.Object, _mockFileSystem.Object);
@@ -142,6 +147,11 @@ namespace EspejoAnalysis.Tests
                 .Returns(true);
             _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
                 .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(new string[] { "file1.csv" });
             // Act
             var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
                 _mockEsterolesLogic.Object, _mockFileSystem.Object);
@@ -169,6 +179,11 @@ namespace EspejoAnalysis.Tests
                 .Returns(true);
             _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
                 .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example2",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(new string[] { "file1.csv" });
             // Act
             var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
                 _mockEsterolesLogic.Object, _mockFileSystem.Object);
@@ -199,6 +214,11 @@ namespace EspejoAnalysis.Tests
                 .Returns(true);
             _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
                 .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example2",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(new string[] { "file1.csv" });
             // Act
             var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
                 _mockEsterolesLogic.Object, _mockFileSystem.Object);
@@ -237,6 +257,11 @@ namespace EspejoAnalysis.Tests
                 .Returns(true);
             _mockFileSystem.Setup(f => f.Path.GetDirectoryName(It.IsAny<string>()))
                 .Returns(It.IsAny<string>());
+            _mockFileSystem.Setup(f => f.Directory.GetFiles(
+                @"C:\Example11",
+                "*.csv",
+                SearchOption.TopDirectoryOnly))
+                .Returns(new string[] { "file1.csv" });
             // Act
             var esterolesViewModel = new EsterolesViewModel(_mockDialog.Object, _mockConfig.Object,
                 _mockEsterolesLogic.Object, _mockFileSystem.Object);
