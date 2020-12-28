@@ -1,11 +1,11 @@
-﻿<Controls:MetroWindow x:Class="EspejoAnalysis.MainWindow"
+﻿<mah:MetroWindow x:Class="EspejoAnalysis.MainWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:ViewModel="clr-namespace:EspejoAnalysis.ViewModel"
+                      xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:ViewModel="clr-namespace:EspejoAnalysis.ViewModel"
                       xmlns:local="clr-namespace:EspejoAnalysis"
                       mc:Ignorable="d"
                       Title="{Binding TitleVersion}"
@@ -41,8 +41,8 @@
                     Command="{Binding ShowAnalysisCommand}"
                     CommandParameter="{x:Type ViewModel:MoshMoahViewModel}" />
         </StackPanel>
-        <Controls:TransitioningContentControl Content="{Binding Analysis}"
+        <mah:TransitioningContentControl Content="{Binding AnalysisSelected}"
                                               Transition="Default"
                                               Grid.Column="1" />
     </Grid>
-</Controls:MetroWindow>
+</mah:MetroWindow>
